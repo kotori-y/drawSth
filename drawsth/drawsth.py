@@ -113,51 +113,10 @@ if '__main__' == __name__:
     btn6 = tk.Button(root, text='Draw logAUC',font=('Arial', 10),command=Draw_logAUC,width=15,height=1,bg='#cd1041')
     btn6.place(x=35*5, y=180) 
     
-    c1 = tk.Checkbutton(root, text='Only show', variable=var_int, onvalue=0, offvalue=1)
+    c1 = tk.Checkbutton(root, text='Only show', variable=var_int, onvalue=0, offvalue=1, bg='#fae8eb')
     c1.place(x=35*5.5, y=220)
              
     root.mainloop()
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-#    file = 'neg_neg.xlsx'
-#    pic = DrawSomeThing(file)
-#    pic.draw_roc()
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        
