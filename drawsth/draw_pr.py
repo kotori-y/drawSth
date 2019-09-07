@@ -2,10 +2,10 @@
 """
 Created on Fri Sep  6 15:23:07 2019
 
-@Author: Zhi-Jiang Yang, Dong-Sheng Cao
+@Author: Zhi-Jiang Yang, Guo-Li Xiong
 @Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
 @Homepage: http://www.scbdd.com
-@Mail: yzjkid9@gmail.com; oriental-cds@163.com
+@Mail: yzjkid9@gmail.com; xgl150327@csu.edu.cn
 @Blog: https://blog.moyule.me
 
 ♥I love Princess Zelda forever♥
