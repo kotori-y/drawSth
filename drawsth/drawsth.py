@@ -182,7 +182,8 @@ if '__main__' == __name__:
     
     label = lb_label.get(0,tk.END)
     scores = lb_score.get(0,tk.END)
-                         
+    
+    root.iconbitmap('ico.ico')
     root.mainloop()
     
     
