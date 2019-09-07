@@ -28,9 +28,13 @@ def warning():
 def choose_loadfile():
     loadfile = askopenfilename(filetypes=(("Excel file", "*.xlsx*;*.xls*"), ("csv file", "*.csv*"), ("Text file", "*.txt*")))
     var_r.set(loadfile)
-    cols = list(load(loadfile).columns)   
-    for col in cols:
-        lb.insert("end", col)
+    lb.delete(0,tk.END)
+    lb_label.delete(0,tk.END)
+    lb_score.delete(0,tk.END)
+    if var_r.get():
+        cols = list(load(loadfile).columns)   
+        for col in cols:
+            lb.insert("end", col)
    
 def Draw_roc():
     if var_r.get():
