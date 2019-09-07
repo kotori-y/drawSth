@@ -12,7 +12,6 @@ Created on Fri Sep  6 15:41:19 2019
 """
 
 
-import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -21,22 +20,23 @@ from load import load
 
 class Enrichment(object):
     
-    def __init__(self,loadfile,savefile=None):
+    def __init__(self, loadfile, label_col, score_col, savefile=None):
         self.loadfile = loadfile
         self.savefile = savefile
         self.df = pd.DataFrame()
         self.length = 0
         self.hit_all = 0
         self.scores = pd.Series()
+        self.score_col = score_col
+        self.label_col = label_col
                               
     def Load(self):
-        data, label = load(self.loadfile)
-        data.insert(0, 'Label', label)
+        data = load(self.loadfile)
         self.df = data
 #        self.df = abs(self.df)
         self.length = len(self.df)
-        self.hit_all = len(self.df[self.df['Label']==1])
-        self.scorers = pd.Series(self.df.columns[1:])
+        self.hit_all = len(self.df[self.df[self.label_col]==1])
+        self.scorers = pd.Series(self.score_col)
 
     
     def sort_count(self,scorer):
@@ -49,7 +49,7 @@ class Enrichment(object):
         for scape in np.arange(0,1,0.01):
             sampled = int(self.length*scape)
             try:
-                hit_sampled = df_i.iloc[:sampled+1,:].Label.value_counts()[1]
+                hit_sampled = df_i.iloc[:sampled+1,:][self.label_col].value_counts()[1]
             except KeyError:
                 hit_sampled = 0
             res.append(hit_sampled)
@@ -79,8 +79,9 @@ class Enrichment(object):
         ax.tick_params(direction='in', which='both', labelsize=12)
         ax.spines['bottom'].set_linewidth(1.3)
         ax.spines['left'].set_linewidth(1.3)
+        ax.spines['right'].set_color('None')
+        ax.spines['top'].set_color('None')
         ax.tick_params(width=1.3)
-        sns.despine()
         ax.legend(fontsize=6.5)
         if self.savefile:
             plt.savefig(self.savefile)
@@ -91,5 +92,5 @@ class Enrichment(object):
 
 
 if '__main__' == __name__:       
-    pic = Enrichment(r"pos_neg.xlsx")
+    pic = Enrichment(r"pos_neg.xlsx", label_col='label', score_col=['ASP','PLP'])
     pic.show_enrichment_roc()

@@ -21,22 +21,21 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def logauc(file,savedir=None,figsize=(5,5)):
+def logauc(file, label_col, score_col, savedir=None, figsize=(5,5)):
     #此处传两个参数，file为格式为xlsx的数据文件；savedir为图片保存的路径
-    data, label = load(file)
-    data.insert(0, 'Label', label)
+    data = load(file)
     df = data
-    pos = len(df[df['Label']==1])
-    neg = len(df[df['Label']==0])
+    pos = len(df[df[label_col]==1])
+    neg = len(df[df[label_col]==0])
     times = neg//pos
     ligandrandl = list()
 
     f,ax = plt.subplots(figsize=figsize)
 
-    for col in df.columns[1:]:
+    for col in score_col:
         resl = list()
         v = df.copy()
-        v = v.loc[:,['Label',col]]
+        v = v.loc[:,[label_col,col]]
         #df.drop(['mol','number','name'],axis=1,inplace=True)
         if (df[col]<0).all():
             ascending = 1
@@ -53,7 +52,7 @@ def logauc(file,savedir=None,figsize=(5,5)):
         ligandf = list()
         decoyf = list()
 
-        for item in list(v['Label']):
+        for item in list(v[label_col]):
             index += 1
             if item == 0:
                 counter += 1
@@ -61,7 +60,7 @@ def logauc(file,savedir=None,figsize=(5,5)):
 
                     df_i = v.iloc[:index+1,:]
 
-                    dic = df_i.Label.value_counts()
+                    dic = df_i[label_col].value_counts()
 
                     try:
                         linum = dic[1]
@@ -70,7 +69,7 @@ def logauc(file,savedir=None,figsize=(5,5)):
 
                     ligandf.append(round(linum/pos,2)*100)
                     decoyf.append(math.log10(percent)+2)
-                    if col == df.columns[1]:
+                    if col == score_col[0]:
                         ligandrand = counter//times
                         ligandrandl.append(round(ligandrand/pos,2)*100)
 
@@ -134,7 +133,7 @@ def logauc(file,savedir=None,figsize=(5,5)):
     
     
 if '__main__' == __name__:       
-    logauc('neg_neg.xlsx')
+    logauc('pos_neg.xlsx', label_col='Label',score_col=['ASP','PLP'])
     
     
     
