@@ -21,7 +21,7 @@ def load(file):
     elif re.findall('\.csv', file):
         data = pd.read_csv(file)
     elif re.findall('\.txt', file):
-        data = pd.read_txt(file,sep='\t')  
+        data = pd.read_csv(file,sep='\t')  
     return data
 
 
