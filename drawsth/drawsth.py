@@ -20,11 +20,27 @@ from draw_pr import draw_pr
 from draw_enrichment import Enrichment 
 from draw_logauc import logauc
 from load import load
-from tkinter import ttk
 
 def warning():
     messagebox.showerror(title='Error!', message="You should choose a Folder!!!")
 
+def Help():
+    messagebox.showinfo(title='Help',message='There are three listboxes:\
+                        \nlabel: the target name;\
+                        \nAscending Scores: target scores, more lower more likely to be positive class;\
+                        \nDscending Scores: target scores, more higher more likely to be positive class.\
+                        \nTarget scores, can either be probability estimates of the positive class,confidence values, or non-thresholded measure of decisions.\
+                        \n\nThe "only show" checkbox meant would not save the output')
+  
+def About():
+    messagebox.showinfo(title='About',message='Version:1.1\
+                        \n@Author: Zhi-Jiang Yang, Guo-Li Xiong\
+                        \n@Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China\
+                        \n@Homepage: http://www.scbdd.com\
+                        \n@Mail: yzjkid9@gmail.com; xgl150327@csu.edu.cn\
+                        \nBlog: https://blog.moyule.me')
+
+    
 def choose_loadfile():
     loadfile = askopenfilename(filetypes=(("Excel file", "*.xlsx*;*.xls*"), ("csv file", "*.csv*"), ("Text file", "*.txt*")))
     var_r.set(loadfile)    
@@ -152,6 +168,12 @@ if '__main__' == __name__:
     bbg.pack()
     root.title("Let's draw somethings")
     
+    
+    menubar = tk.Menu(root)
+    menubar.add_command(label = "Help", command=Help)
+    menubar.add_command(label = "About", command=About)
+    
+    
     var_label = tk.StringVar()
     var_scores = tk.StringVar()
     
@@ -219,7 +241,8 @@ if '__main__' == __name__:
     theButton = tk.Button(root, text="←", command=Dscoretolb, bg='#cd1041', height=1)
     theButton.place(x=30*8,y=298+5)
         
-    root.iconbitmap('ico.ico')
+    root.iconbitmap('ico.ico')  
+    root.config(menu = menubar)
     root.mainloop()
     
     
