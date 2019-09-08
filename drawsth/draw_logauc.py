@@ -21,9 +21,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def logauc(file, label_col, score_col, savedir=None, figsize=(5,5)):
+def logauc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5)):
     #此处传两个参数，file为格式为xlsx的数据文件；savedir为图片保存的路径
     data = load(file)
+    score_col = Ascore_col+Dscore_col
     df = data
     pos = len(df[df[label_col]==1])
     neg = len(df[df[label_col]==0])
@@ -37,7 +38,7 @@ def logauc(file, label_col, score_col, savedir=None, figsize=(5,5)):
         v = df.copy()
         v = v.loc[:,[label_col,col]]
         #df.drop(['mol','number','name'],axis=1,inplace=True)
-        if (df[col]<0).all():
+        if col in Ascore_col:
             ascending = 1
         else:
             ascending = 0
@@ -131,10 +132,7 @@ def logauc(file, label_col, score_col, savedir=None, figsize=(5,5)):
         pass
     plt.show()
     
-    
-if '__main__' == __name__:       
-    logauc('pos_neg.xlsx', label_col='Label',score_col=['ASP','PLP'])
-    
+
     
     
     
