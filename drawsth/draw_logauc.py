@@ -22,7 +22,6 @@ warnings.filterwarnings("ignore")
 
 
 def logauc(file, label_col, score_col, savedir=None, figsize=(5,5)):
-    #此处传两个参数，file为格式为xlsx的数据文件；savedir为图片保存的路径
     data = load(file)
     df = data
     pos = len(df[df[label_col]==1])
