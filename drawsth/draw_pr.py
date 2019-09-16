@@ -17,14 +17,15 @@ from load import load
 from sklearn.metrics import precision_recall_curve,auc
 
 
-def draw_pr(file, label_col, score_col, savedir=None, figsize=(5,5)):   
+def draw_pr(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5)):   
    data = load(file)
+   score_col = Ascore_col+Dscore_col
    label = data.pop(label_col)
    font_kws = {'family':'arial','size':18}
    f,ax = plt.subplots(figsize=figsize) 
    for col in score_col:
        score = data.loc[:,col] 
-       if (score<0).all():
+       if col in Ascore_col:
            pos_label = 0
        else:
            pos_label = 1
@@ -44,9 +45,4 @@ def draw_pr(file, label_col, score_col, savedir=None, figsize=(5,5)):
    
    
    
-if '__main__' == __name__:
-    file = 'pos_neg.xlsx'
-    draw_pr(file,label_col='Label',score_col=['ASP','PLP'])
-    
-    
-    
+

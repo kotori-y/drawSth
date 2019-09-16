@@ -20,14 +20,16 @@ from load import load
 
 class Enrichment(object):
     
-    def __init__(self, loadfile, label_col, score_col, savefile=None):
+    def __init__(self, loadfile, label_col, Ascore_col, Dscore_col, savefile=None):
         self.loadfile = loadfile
         self.savefile = savefile
         self.df = pd.DataFrame()
         self.length = 0
         self.hit_all = 0
         self.scores = pd.Series()
-        self.score_col = score_col
+        self.score_col = Ascore_col + Dscore_col
+        self.Ascore = Ascore_col
+        self.Dscore = Dscore_col
         self.label_col = label_col
                               
     def Load(self):
@@ -41,7 +43,7 @@ class Enrichment(object):
     
     def sort_count(self,scorer):
         res = []
-        if (self.df[scorer]<0).all():
+        if scorer in self.Ascore:
             ascending = 1
         else:
             ascending = 0

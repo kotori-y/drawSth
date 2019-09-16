@@ -16,18 +16,19 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 
 
-def draw_roc(file, label_col, score_col, savedir=None, figsize=(5,5)):
+def draw_roc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5)):
     data = load(file)
+    score_col = Ascore_col+Dscore_col 
     font_kws = {'family':'arial','size':18}
     f,ax = plt.subplots(figsize=figsize) 
     ax.plot([0, 1], [0, 1], '--', color=(0.6, 0.6, 0.6), label='Random')
     label = data.pop(label_col)
     for col in score_col:
         score = data[col]
-        if (score<0).all():
+        if col in Ascore_col:
             pos_label = 0
         else:
-            pos_label = 1
+            pos_label = 1 
         fpr, tpr, _= roc_curve(label, score, pos_label=pos_label)
         AUC = auc(fpr,tpr)  
         ax.plot(fpr,tpr,linewidth=1.5,label=col+' (auc=%.3f)'%AUC)
@@ -40,9 +41,4 @@ def draw_roc(file, label_col, score_col, savedir=None, figsize=(5,5)):
     if savedir:
         plt.savefig(savedir)
     plt.show()
-    
-    
-if '__main__' == __name__:
-    file = 'pos_neg.xlsx'
-    draw_roc(file, label_col='Label',score_col=['ASP','PLP'])
     
