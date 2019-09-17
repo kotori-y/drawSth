@@ -115,7 +115,10 @@ def logauc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5))
     plt.plot(decoyf,ligandrandl,linestyle='--',label=''.join(['Random',' logAUC=%.3f' %rlogAuc]),color='black')
     ax.tick_params(width=1.3)
     ax.set_xticks([-1,0,1,2])
-    ax.set_xticklabels(['10^-1','10^0','10^1','10^2'])
+    ax.set_xticklabels(['$\mathregular{10^{-1}}$',
+                        '$\mathregular{10^{0}}$',
+                        '$\mathregular{10^{1}}$',
+                        '$\mathregular{10^{2}}$'])
     ax.set_xlim([-1,2])
     ax.set_ylim([0,100])
     ax.spines['bottom'].set_linewidth(1.3)
