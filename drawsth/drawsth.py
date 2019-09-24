@@ -20,6 +20,8 @@ from draw_pr import draw_pr
 from draw_enrichment import Enrichment 
 from draw_logauc import logauc
 from load import load
+from enrichment_factor import EF
+
 
 def warning():
     messagebox.showerror(title='Error!', message="You should choose a Folder!!!")
@@ -133,7 +135,60 @@ def Draw_logAUC():
            messagebox.showerror(title='Error!', message="You should choose a label!!!") 
     else:
         messagebox.showerror(title='Error!', message="You should choose a Folder!!!")
-   
+
+
+def Enrichment_Factor():
+    def cal():
+        df_savefile = asksaveasfilename(filetypes=(("CSV file", "*.csv*"),("Excel file", "*.xlsx*;*.xls*")))
+        if df_savefile:
+            ef.df_savefile = df_savefile
+            try:
+                ef.calculateEF()
+                messagebox.showinfo(title='Finished', message='Calculating Finished') 
+            except PermissionError:
+                messagebox.showerror(title='Error!', message="Permission denied!!!")
+        else:
+            pass
+        
+    def drawef():
+        if var_int.get():
+            pic_savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
+            ef.pic_savefile = pic_savefile  
+        else:
+            pic_savefile = None
+        
+        try:
+            ef.drawEF()
+            messagebox.showinfo(title='Finished', message='Drawing Finished') 
+        except PermissionError:
+            messagebox.showerror(title='Error!', message="Permission denied!!!")
+    
+    if var_r.get():
+        
+        enrichment_factor = tk.Toplevel(root)
+        enrichment_factor.geometry('300x150+500+200')
+        enrichment_factor.title('Enrichment Factor')
+        bbg = tk.Label(enrichment_factor,bg='#fae8eb',width=500,height=300)
+        bbg.pack()
+        
+        btn7_1 = tk.Button(enrichment_factor, text='Calculate Enrichment Factor',command=cal,bg='#cd1041')
+        btn7_1.place(x=60,y=30)
+        
+        btn7_2 = tk.Button(enrichment_factor, text='Draw EF Cruve',command=drawef,bg='#cd1041')
+        btn7_2.place(x=100,y=80)
+        
+        if lb_label.get(0,tk.END):
+            label = lb_label.get(0,tk.END)[0]
+            Ascores = lb_Ascore.get(0,tk.END)
+            Dscores = lb_Dscore.get(0,tk.END)
+            ef = EF(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores)
+            ef.Load()
+        else:
+            messagebox.showerror(title='Error!', message="You should choose a label!!!")
+    else:
+        messagebox.showerror(title='Error!', message="You should choose a Folder!!!")
+        
+
 def lbtolabel():
     indexes = lb.curselection()[::-1]
     for idx in indexes: 
@@ -206,8 +261,13 @@ if '__main__' == __name__:
     btn6 = tk.Button(root, text='Draw logAUC',font=('Arial', 10),command=Draw_logAUC,width=15,height=1,bg='#cd1041')
     btn6.place(x=430, y=215) 
     
+    btn7 = tk.Button(root, text='Enrichment Factor',font=('Arial', 10),command=Enrichment_Factor,width=15,height=1,bg='#cd1041')
+    btn7.place(x=430, y=280)
+    
+    
+    
     c1 = tk.Checkbutton(root, text='Only show', variable=var_int, onvalue=0, offvalue=1, bg='#fae8eb')
-    c1.place(x=450, y=220+30)
+    c1.place(x=450, y=285+30)
      
     lb = tk.Listbox(root,selectmode='extended',listvariable=var_scores)
     lb.place(x=35,y=60,relwidth=0.3,relheight=0.8)

@@ -26,7 +26,7 @@ def drawscatter(ax,xs,ys,**ks):
 
 
 if '__main__'==__name__:
-    df = pd.read_excel(r"***")
+    df = pd.read_excel(r"C:\Users\0720\Desktop\MATE\xgl\Scatter_plot_GOLD.xlsx")
     label = df.pop('target')
     label = [x[3:] for x in label]
     cols = df.columns
@@ -37,7 +37,7 @@ if '__main__'==__name__:
 #    ax.grid(zorder=-10000)
     
     colors = [
-            '#eb397a','#6c8df4','#55d14a','#eeda5a'
+            '#eb397a','#6c8df4','#55d14a','#eeda5a', '#800000'
               ]
     for n,color in zip(range(0,8,2), colors):
         drawscatter(ax,df.iloc[:,n+1], df.iloc[:,n],color=color,s=80,alpha=1)
@@ -52,8 +52,13 @@ if '__main__'==__name__:
     ax.set_yticklabels([None,0.2,0.4,0.6,0.8,1.0])
     ax.set_xticklabels([0,0.2,0.4,0.6,0.8,1.0])
     ax.tick_params(direction='in', which='both', labelsize=18)
-    ax.set_xlabel('$\mathregular{AUC_{original}}$',fontdict={'family':'arial', 'size':26})
-    ax.set_ylabel('$\mathregular{AUC_{training}}$',fontdict={'family':'arial', 'size':26})
+#    ax.set_xlabel('$\mathregular{auc_{Score-MOE}}$',fontdict={'family':'arial', 'size':26, 'fontstyle':'italic'})
+#    ax.set_ylabel('$\mathregular{AUC_{training}}$',fontdict={'family':'arial', 'size':26})
+    ax.text(0.37, -0.09, 'auc', fontdict={'family':'arial', 'size':26, 'fontstyle':'italic'})
+    ax.text(0.46, -0.09, 'Score-GOLD', fontdict={'family':'arial', 'size':26})
+    
+    ax.text(-0.11, 0.41, 'auc', fontdict={'family':'arial', 'size':26, 'fontstyle':'italic', 'rotation':'vertical'})
+    ax.text(-0.11, 0.55, 'EATL', fontdict={'family':'arial', 'size':26, 'rotation':'vertical'})
     
     
     ##########################################legend##########################################      
@@ -72,7 +77,7 @@ if '__main__'==__name__:
     ax.set_axisbelow(True)
     ax.grid()
     
-    plt.savefig('demo.pdf')
+    plt.savefig('GOLD_score.pdf')
     
     
     
