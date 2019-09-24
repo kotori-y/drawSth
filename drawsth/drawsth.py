@@ -187,7 +187,11 @@ def Enrichment_Factor():
         
         enrichment_factor = tk.Toplevel(root)
         enrichment_factor.geometry('300x150+500+200')
+        enrichment_factor.resizable(0,0)
         enrichment_factor.title('Enrichment Factor')
+        enrichment_factor.attributes("-toolwindow", 1)
+        enrichment_factor.wm_attributes("-topmost", 1)
+        
         bbg = tk.Label(enrichment_factor,bg='#fae8eb',width=500,height=300)
         bbg.pack()
         

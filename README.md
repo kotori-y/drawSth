@@ -29,6 +29,8 @@ LogAUC was introduced to tackle the early enrichment problem by computing the pe
 
 DrawSth is based on the Python environment, so you should download the package and open the file [drawsth.py](https://github.com/kotori-y/DrawSth/blob/master/drawsth/drawsth.py) in your Spyder or Python3. Click on button run and then a graphical user interface will appear. Firstly,  select  the data file.
 
+#### Thanks for my colleague writing this document.[@Juno Xiong](https://github.com/xiongguoli)
+
 
 
 
