@@ -64,7 +64,12 @@ def Draw_roc():
                 savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
             else:
                 savefile = None
-            draw_roc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
+            
+            try:
+                draw_roc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
+            except PermissionError:
+                messagebox.showerror(title='Error!', message="Permission denied!!!")
+                
             if not messagebox.askyesno('Finished!','Would you want to draw others?'):
                 root.destroy()
             else:
@@ -85,7 +90,12 @@ def Draw_pr():
                 savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
             else:
                 savefile = None
-            draw_pr(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
+            
+            try:
+                draw_pr(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
+            except PermissionError:
+                messagebox.showerror(title='Error!', message="Permission denied!!!")
+                
             if not messagebox.askyesno('Finished!','Would you want to draw others?'):
                 root.destroy()
             else:
@@ -105,8 +115,13 @@ def Draw_enrich():
                 savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
             else:
                 savefile = None
-            pic = Enrichment(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savefile=savefile)
-            pic.show_enrichment_roc()
+                
+            try:
+                pic = Enrichment(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savefile=savefile)
+                pic.show_enrichment_roc()
+            except PermissionError:
+                messagebox.showerror(title='Error!', message="Permission denied!!!")
+                
             if not messagebox.askyesno('Finished!','Would you want to draw others?'):
                 root.destroy()
             else:
@@ -126,7 +141,12 @@ def Draw_logAUC():
                 savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
             else:
                 savefile = None
-            logauc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
+            
+            try:
+                logauc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
+            except PermissionError:
+                messagebox.showerror(title='Error!', message="Permission denied!!!")
+                
             if not messagebox.askyesno('Finished!','Would you want to draw others?'):
                 root.destroy()
             else:
