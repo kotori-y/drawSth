@@ -64,7 +64,7 @@ class Enrichment(object):
         f,ax = plt.subplots(figsize=(5,5))
         
         res = self.scorers.map(self.sort_count)
-        for item,col in zip(res,self.df.columns[1:]):
+        for item,col in zip(res,self.score_col):
             AUC = auc(np.arange(0,1.00,0.01),[round(x/self.hit_all,2) for x in item])
             AUC = '%.3f'%AUC
             plt.plot(np.arange(0,1.00,0.01),item,label='{} (AUC={})'.format(col,AUC))

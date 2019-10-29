@@ -249,6 +249,22 @@ def Dscoretolb():
         lb.insert(0,lb_Dscore.get(idx))
         lb_Dscore.delete(idx)
 
+
+def color_config():
+    if lb_label.get(0,tk.END):
+            Ascores = lb_Ascore.get(0,tk.END)
+            Dscores = lb_Dscore.get(0,tk.END)
+            scores = Ascores+Dscores
+            colorfig = tk.Toplevel(root)
+            colorfig.geometry('300x150+500+200')
+            colorfig.resizable(0,0)
+            for score in scores:
+                lb = tk.Label(colorfig, textvariable=score, bg='#eaf6e8', fg='#494546', font=('Arial', 10),width=45,height=1
+                              )
+                lb.pack()
+                            
+    else:
+        messagebox.showerror(title='Error!', message="You should choose a label!!!")
  
 if '__main__' == __name__:
     root = tk.Tk()
@@ -267,31 +283,32 @@ if '__main__' == __name__:
     
     var_label = tk.StringVar()
     var_scores = tk.StringVar()
-    
+    var_colors = tk.StringVar()
     
     btn1 = tk.Button(root, text='Select data file',font=('Arial', 10),command=choose_loadfile,width=15,height=1,bg='#d6c4dd').place(x=35,y=20)
     var_r = tk.StringVar()
     lr = tk.Label(root, textvariable=var_r, bg='#eaf6e8', fg='#494546', font=('Arial', 10),width=45,height=1).place(x=175,y=23)
     
     btn3 = tk.Button(root, text='Draw ROC',font=('Arial', 10),command=Draw_roc,width=15,height=1,bg='#cd1041')
-    btn3.place(x=430, y=95)             
+    btn3.place(x=430, y=90)             
                   
     btn4 = tk.Button(root, text='Draw P-R',font=('Arial', 10),command=Draw_pr,width=15,height=1,bg='#cd1041')
-    btn4.place(x=430, y=135)     
+    btn4.place(x=430, y=130)     
 
     btn5 = tk.Button(root, text='Draw Enrichment',font=('Arial', 10),command=Draw_enrich,width=15,height=1,bg='#cd1041')
-    btn5.place(x=430, y=175) 
+    btn5.place(x=430, y=170) 
 
     btn6 = tk.Button(root, text='Draw logAUC',font=('Arial', 10),command=Draw_logAUC,width=15,height=1,bg='#cd1041')
-    btn6.place(x=430, y=215) 
+    btn6.place(x=430, y=210) 
     
     btn7 = tk.Button(root, text='Enrichment Factor',font=('Arial', 10),command=Enrichment_Factor,width=15,height=1,bg='#cd1041')
-    btn7.place(x=430, y=280)
+    btn7.place(x=430, y=250)
     
-    
-    
+    btn7 = tk.Button(root, text='Color Config',font=('Arial', 10),command=color_config,width=15,height=1,bg='#c495f0')
+    btn7.place(x=430, y=290)
+
     c1 = tk.Checkbutton(root, text='Only show', variable=var_int, onvalue=0, offvalue=1, bg='#fae8eb')
-    c1.place(x=450, y=285+30)
+    c1.place(x=450, y=285+40)
      
     lb = tk.Listbox(root,selectmode='extended',listvariable=var_scores)
     lb.place(x=35,y=60,relwidth=0.3,relheight=0.8)
