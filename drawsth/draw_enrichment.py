@@ -83,6 +83,7 @@ class Enrichment(object):
         ax.spines['left'].set_linewidth(1.3)
         ax.spines['right'].set_color('None')
         ax.spines['top'].set_color('None')
+        ax.legend(fontsize=6.5)
         ax.tick_params(width=1.3)
         ax.legend(fontsize=6.5)
         if self.savefile:
