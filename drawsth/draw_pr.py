@@ -17,7 +17,7 @@ from load import load
 from sklearn.metrics import precision_recall_curve,auc
 
 
-def draw_pr(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5)):   
+def draw_pr(file, label_col, Ascore_col, Dscore_col,figsize=(5,5)):   
    data = load(file)
    score_col = Ascore_col+Dscore_col
    label = data.pop(label_col)
@@ -39,10 +39,8 @@ def draw_pr(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5)
    ax.set_ylim([0.0,1.0])
    ax.set_xlim([0.0,1.0])
    ax.legend(fontsize=6.5)
-   if savedir:
-       plt.savefig(savedir)
    plt.show()
-   
+   return f
    
    
 

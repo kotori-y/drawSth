@@ -17,12 +17,13 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import auc
 from load import load
+from matplotlib.ticker import MultipleLocator
+
 
 class Enrichment(object):
     
-    def __init__(self, loadfile, label_col, Ascore_col, Dscore_col, savefile=None):
+    def __init__(self, loadfile, label_col, Ascore_col, Dscore_col):
         self.loadfile = loadfile
-        self.savefile = savefile
         self.df = pd.DataFrame()
         self.length = 0
         self.hit_all = 0
@@ -73,26 +74,27 @@ class Enrichment(object):
                        int(self.hit_all*0.6),
                        int(self.hit_all*0.8),
                        int(self.hit_all*1.0)])
-        plt.plot([0, 1], [0, self.hit_all], color='navy', lw=1, linestyle='--')
+#        plt.plot([0, 1], [0, self.hit_all], color='navy', lw=1, linestyle='--')
         ax.set_ylim([0,self.hit_all])
         ax.set_xlim([0,1])
-        ax.set_yticklabels([0,20,40,60,80,100])
-        ax.set_xticklabels([0,20,40,60,80,100])
+        ax.set_yticklabels([0,0.2,0.4,0.6,0.8,1.0])
+#        ax.set_xticklabels([0,20,40,60,80,100])
+        ml_x = MultipleLocator(0.1)
+        ml_y = MultipleLocator(int(self.hit_all*0.1))
+        ax.yaxis.set_minor_locator(ml_y)
+        ax.xaxis.set_minor_locator(ml_x)
         ax.tick_params(direction='in', which='both', labelsize=12)
-        ax.spines['bottom'].set_linewidth(1.3)
-        ax.spines['left'].set_linewidth(1.3)
-        ax.spines['right'].set_color('None')
-        ax.spines['top'].set_color('None')
-        ax.legend(fontsize=6.5)
+        ax.spines['bottom'].set_linewidth(1.5)
+        ax.spines['left'].set_linewidth(1.5)
+        ax.spines['top'].set_linewidth(1.5)
+        ax.spines['right'].set_linewidth(1.5) 
         ax.tick_params(width=1.3)
-        ax.legend(fontsize=6.5)
-        if self.savefile:
-            plt.savefig(self.savefile)
-        else:
-            pass
+        ax.legend(fontsize=8,ncol=2,loc=4)
+        ax.set_xlabel('Fraction of Samples',size=12)
+        ax.set_ylabel('Fraction of Actives',size=12)
         plt.show()
-
-
+        return f
+    
 
 if '__main__' == __name__:       
     pic = Enrichment(r"pos_neg.xlsx", label_col='label', score_col=['ASP','PLP'])

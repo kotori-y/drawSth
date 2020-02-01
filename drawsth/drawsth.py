@@ -44,36 +44,38 @@ def About():
 
     
 def choose_loadfile():
-    loadfile = askopenfilename(filetypes=(("Excel file", "*.xlsx*;*.xls*"), ("csv file", "*.csv*"), ("Text file", "*.txt*")))
+    loadfile = askopenfilename(filetypes=(("csv file", "*.csv*"), ("Excel file", "*.xlsx*;*.xls*"), ("Text file", "*.txt*")))
     if loadfile:
         var_r.set(loadfile)  
         lb.delete(0,tk.END)
         lb_label.delete(0,tk.END)
         lb_Ascore.delete(0,tk.END)
         lb_Dscore.delete(0,tk.END)
-        cols = list(load(loadfile).columns)      
+        cols = list(load(loadfile,nrows=0).columns)      
         var_scores.set(cols)
   
+    
 def Draw_roc():
     if var_r.get():
         if lb_label.get(0,tk.END):
             label = lb_label.get(0,tk.END)[0]
             Ascores = lb_Ascore.get(0,tk.END)
             Dscores = lb_Dscore.get(0,tk.END)
-            if var_int.get():
-                savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
-            else:
-                savefile = None
+           
+            f = draw_roc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores)
             
-            try:
-                draw_roc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
-            except PermissionError:
-                messagebox.showerror(title='Error!', message="Permission denied!!!")
-                
-            if not messagebox.askyesno('Finished!','Would you want to draw others?'):
-                root.destroy()
+            if messagebox.askyesno('Finished!','Would you want to save the figure?'):
+                savefile = asksaveasfilename(filetypes=(("Pdf file", "*.pdf*"),("Png file", "*.png*")))
+                if savefile:
+                    try:
+                        f.savefig(savefile)
+                    except PermissionError:
+                        messagebox.showerror(title='Error!', message="Permission Denied!!!")
+                else:
+                    pass
             else:
                 pass
+            
         else:
             messagebox.showerror(title='Error!', message="You should choose a label!!!")
     else:
@@ -86,20 +88,21 @@ def Draw_pr():
             label = lb_label.get(0,tk.END)[0]
             Ascores = lb_Ascore.get(0,tk.END)
             Dscores = lb_Dscore.get(0,tk.END)
-            if var_int.get():
-                savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
-            else:
-                savefile = None
+
+            f = draw_pr(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores)
             
-            try:
-                draw_pr(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
-            except PermissionError:
-                messagebox.showerror(title='Error!', message="Permission denied!!!")
-                
-            if not messagebox.askyesno('Finished!','Would you want to draw others?'):
-                root.destroy()
+            if messagebox.askyesno('Finished!','Would you want to save the figure?'):
+                savefile = asksaveasfilename(filetypes=(("Pdf file", "*.pdf*"),("Png file", "*.png*")))
+                if savefile:
+                    try:
+                        f.savefig(savefile)
+                    except PermissionError:
+                        messagebox.showerror(title='Error!', message="Permission Denied!!!")
+                else:
+                    pass
             else:
-                pass 
+                pass
+            
         else:
             messagebox.showerror(title='Error!', message="You should choose a label!!!")
     else:
@@ -111,21 +114,25 @@ def Draw_enrich():
             label = lb_label.get(0,tk.END)[0]
             Ascores = lb_Ascore.get(0,tk.END)
             Dscores = lb_Dscore.get(0,tk.END)
-            if var_int.get():
-                savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
-            else:
-                savefile = None
+#            if var_int.get():
+#                savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
+#            else:
+#                savefile = None
                 
-            try:
-                pic = Enrichment(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savefile=savefile)
-                pic.show_enrichment_roc()
-            except PermissionError:
-                messagebox.showerror(title='Error!', message="Permission denied!!!")
-                
-            if not messagebox.askyesno('Finished!','Would you want to draw others?'):
-                root.destroy()
+            pic = Enrichment(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores)
+            f = pic.show_enrichment_roc()
+            if messagebox.askyesno('Finished!','Would you want to save the figure?'):
+                savefile = asksaveasfilename(filetypes=(("Pdf file", "*.pdf*"),("Png file", "*.png*")))
+                if savefile:
+                    try:
+                        f.savefig(savefile)
+                    except PermissionError:
+                        messagebox.showerror(title='Error!', message="Permission Denied!!!")
+                else:
+                    pass
             else:
                 pass
+        
         else:
             messagebox.showerror(title='Error!', message="You should choose a label!!!")
     else:
@@ -137,18 +144,18 @@ def Draw_logAUC():
             label = lb_label.get(0,tk.END)[0]
             Ascores = lb_Ascore.get(0,tk.END)
             Dscores = lb_Dscore.get(0,tk.END)
-            if var_int.get():
-                savefile = asksaveasfilename(filetypes=(("PDF file", "*.pdf*"),("png file", "*.png*")))
-            else:
-                savefile = None
             
-            try:
-                logauc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores, savedir=savefile)
-            except PermissionError:
-                messagebox.showerror(title='Error!', message="Permission denied!!!")
-                
-            if not messagebox.askyesno('Finished!','Would you want to draw others?'):
-                root.destroy()
+            f = logauc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores)
+            
+            if messagebox.askyesno('Finished!','Would you want to save the figure?'):
+                savefile = asksaveasfilename(filetypes=(("Pdf file", "*.pdf*"),("Png file", "*.png*")))
+                if savefile:
+                    try:
+                        f.savefig(savefile)
+                    except PermissionError:
+                        messagebox.showerror(title='Error!', message="Permission Denied!!!")
+                else:
+                    pass
             else:
                 pass
         else:

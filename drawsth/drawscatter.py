@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Sep 16 21:04:31 2019
-
 @Author: Zhi-Jiang Yang, Dong-Sheng Cao
 @Institution: CBDD Group, Xiangya School of Pharmaceutical Science, CSU, China
 @Homepage: http://www.scbdd.com
 @Mail: yzjkid9@gmail.com; oriental-cds@163.com
 @Blog: https://blog.moyule.me
-
 ♥I love Princess Zelda forever♥
 """
 
@@ -50,8 +48,8 @@ def main(file,target_field='Target',save_dir=None):
     ax.set_ylim([0,1])
     ax.set_yticklabels([None,0.2,0.4,0.6,0.8,1.0],fontdict={'family': 'arial', 'size':10})
     ax.set_xticklabels([0,0.2,0.4,0.6,0.8,1.0],fontdict={'family': 'arial', 'size':10})
-    ax.set_xlabel('AUC Classical SFs',fontdict={'family': 'arial', 'size':10})
-    ax.set_ylabel('AUC EATL SFs',fontdict={'family': 'arial', 'size':10})
+    ax.set_xlabel('LogAUC Classical SFs',fontdict={'family': 'arial', 'size':10})
+    ax.set_ylabel('LogAUC EATL SFs',fontdict={'family': 'arial', 'size':10})
     ax.tick_params(direction='in', which='both', labelsize=10)
     
     ##########################################legend##########################################      
@@ -81,7 +79,7 @@ def main(file,target_field='Target',save_dir=None):
     
     
 if '__main__'==__name__:
-    main(r"C:\Users\0720\Desktop\MATE\xgl\1101scatter.xlsx",save_dir=r'C:\Users\0720\Desktop\MATE\yzy\mc\s1102.pdf')
+    main(r"C:\Users\0720\Desktop\MATE\xgl\data1223.csv",save_dir=r"C:\Users\0720\Desktop\MATE\xgl\pic1223_2.pdf")
 #    df = pd.read_excel(r"C:\Users\0720\Desktop\MATE\xgl\Scatter_plot_GOLD.xlsx")
 #    label = df.pop('target')
 #    label = [x[3:] for x in label]
@@ -136,15 +134,3 @@ if '__main__'==__name__:
 #    plt.savefig('GOLD_score.pdf')
 #    
 #    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

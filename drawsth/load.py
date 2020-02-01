@@ -15,12 +15,12 @@ Created on Fri Sep  6 11:22:48 2019
 import pandas as pd
 import re
 
-def load(file):
+def load(file,**kwargs):
     if re.findall('\.xlsx', file) or re.findall('\.xls', file):
-        data = pd.read_excel(file)
+        data = pd.read_excel(file,**kwargs)
     elif re.findall('\.csv', file):
-        data = pd.read_csv(file)
-    elif re.findall('\.txt', file):
+        data = pd.read_csv(file,**kwargs)
+    elif re.findall('\.txt', file,**kwargs):
         data = pd.read_csv(file,sep='\t')  
     return data
 

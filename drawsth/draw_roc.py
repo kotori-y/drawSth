@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 
 
-def draw_roc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5)):
+def draw_roc(file, label_col, Ascore_col, Dscore_col,figsize=(5,5)):
     data = load(file)
     score_col = Ascore_col+Dscore_col 
     font_kws = {'family':'arial','size':18}
@@ -38,7 +38,6 @@ def draw_roc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5
     ax.set_xlim([0.0,1.0])
     ax.tick_params(direction='in', which='both', labelsize=12)
     ax.legend(fontsize=6.5)
-    if savedir:
-        plt.savefig(savedir)
     plt.show()
+    return f
     

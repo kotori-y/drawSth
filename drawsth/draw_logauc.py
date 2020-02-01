@@ -17,68 +17,51 @@ import matplotlib.pyplot as plt
 from math import log
 from math import log10
 from load import load
+import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
 
-def logauc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5)):
+def logauc(file, label_col, Ascore_col, Dscore_col, figsize=(5,5)):
     #此处传两个参数，file为格式为xlsx的数据文件；savedir为图片保存的路径
     data = load(file)
     score_col = Ascore_col+Dscore_col
     df = data
     pos = len(df[df[label_col]==1])
     neg = len(df[df[label_col]==0])
-    times = neg//pos
+    #times = neg//pos
     ligandrandl = list()
 
-    f,ax = plt.subplots(figsize=figsize)
-
+    fig,ax = plt.subplots(figsize=figsize)
+    
+    Lam = 0.001
+    step = 0.001
+    e = math.e
+    
+    decoyf = [(math.log10(ratio)+2) for ratio in np.arange(Lam,1+step,step)]
+    
     for col in score_col:
         resl = list()
         v = df.copy()
         v = v.loc[:,[label_col,col]]
         #df.drop(['mol','number','name'],axis=1,inplace=True)
+        
         if col in Ascore_col:
             ascending = 1
         else:
             ascending = 0
         v.sort_values(col,ascending=ascending,inplace=True)
-
-        counter = 0
-        index = -1
-        Lam = 0.001
-
-        percent = Lam
-
-        ligandf = list()
-        decoyf = list()
-
-        for item in list(v[label_col]):
-            index += 1
-            if item == 0:
-                counter += 1
-                if counter == int(neg*percent):
-
-                    df_i = v.iloc[:index+1,:]
-
-                    dic = df_i[label_col].value_counts()
-
-                    try:
-                        linum = dic[1]
-                    except KeyError:
-                        linum = 0
-
-                    ligandf.append(round(linum/pos,2)*100)
-                    decoyf.append(math.log10(percent)+2)
-                    if col == score_col[0]:
-                        ligandrand = counter//times
-                        ligandrandl.append(round(ligandrand/pos,2)*100)
-
-                    percent += 0.001
-                    
-        e = math.e
+        v = v.reset_index(drop=True)
+        neg_idx = v[v.Label==0].index.tolist()
         
-        for index in range(999):
+        ligandf = list()
+        
+        for ratio in np.arange(Lam,1+step,step):
+            df_i = v.iloc[:neg_idx[int(neg*ratio)-1],:]
+            linum = df_i[label_col].sum()
+            ligandf.append(round(linum/pos,2)*100)
+        
+        for index in np.arange(len(decoyf)-1):
             x_i = (10**decoyf[index])/100
             x_i_ = (10**decoyf[index+1])/100
 
@@ -96,7 +79,10 @@ def logauc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5))
         plt.plot(decoyf,ligandf,label=''.join([col,' logAUC=%.3f' %logAuc]))
     
     resl = []
-    for index in range(999):
+    
+    ligandrandl = [10**i for i in decoyf]
+    
+    for index in range(len(decoyf)-1):
         rx_i = (10**decoyf[index])/100
         rx_i_ = (10**decoyf[index+1])/100
 
@@ -109,8 +95,6 @@ def logauc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5))
         res = ((ry_i_-ry_i)/log(10,e))+bi*(log10(rx_i_)-log10(rx_i))
         resl.append(res)
     rlogAuc = sum(resl)/log10(1/Lam)
-        
-        
         
     plt.plot(decoyf,ligandrandl,linestyle='--',label=''.join(['Random',' logAUC=%.3f' %rlogAuc]),color='black')
     ax.tick_params(width=1.3)
@@ -129,11 +113,8 @@ def logauc(file, label_col, Ascore_col, Dscore_col, savedir=None, figsize=(5,5))
     ax.set_ylabel('% Ligands Found',size=13)
     ax.tick_params(direction='in', which='both', labelsize=12)
     ax.legend(fontsize=7)
-    if savedir:
-        plt.savefig(savedir)
-    else:
-        pass
     plt.show()
+    return fig
     
 
     
