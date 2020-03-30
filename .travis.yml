@@ -27,4 +27,4 @@ install:
   #- python setup.py install
 
 script:
-  - python ./drawsth/drawsth.py
+  - ./drawsth/drawsth.py
