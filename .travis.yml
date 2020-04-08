@@ -28,9 +28,9 @@ before_install:
   - conda activate test-environment
   #- python setup.py install
 install:
-  - conda install -c rdkit rdkit
+  - pip install codecov
 
 script: true
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov
