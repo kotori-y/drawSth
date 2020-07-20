@@ -26,10 +26,10 @@ def draw_pr(file, label_col, Ascore_col, Dscore_col,figsize=(5,5)):
    for col in score_col:
        score = data.loc[:,col] 
        if col in Ascore_col:
-           pos_label = 0
+           score = 1 - score
        else:
-           pos_label = 1
-       precision, recall, _ = precision_recall_curve(label, score, pos_label=pos_label)
+           pass
+       precision, recall, _ = precision_recall_curve(label, score, pos_label=1)
        AUC = auc(recall, precision)   
        ax.plot(recall,precision,linewidth=1.5,label=col+' (auc=%.3f)'%AUC)
    ax.set_title('Precision/Recall Curve')# give plot a title
