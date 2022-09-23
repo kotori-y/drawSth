@@ -10,7 +10,8 @@ Created on Fri Sep  6 11:30:06 2019
 
 ♥I love Princess Zelda forever♥
 """
-
+import os
+import sys
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
@@ -361,8 +362,8 @@ if '__main__' == __name__:
     theButton = tk.Button(root, text="←", command=Dscoretolb, bg='#cd1041', height=1)
     theButton.place(x=30*8,y=298+5)
         
-    root.iconbitmap('ico.ico')  
-    root.config(menu = menubar)
+    root.iconbitmap(os.path.join(sys.path[0], './ico.ico'))
+    root.config(menu=menubar)
     root.mainloop()
     
     
