@@ -146,7 +146,7 @@ def Draw_logAUC():
             Ascores = lb_Ascore.get(0,tk.END)
             Dscores = lb_Dscore.get(0,tk.END)
             
-            f = logauc(var_r.get(), label_col=label, Ascore_col=Ascores, Dscore_col=Dscores)
+            f = logauc(var_r.get(), label_col=label, ascore_col=Ascores, dscore_col=Dscores)
             
             if messagebox.askyesno('Finished!','Would you want to save the figure?'):
                 savefile = asksaveasfilename(filetypes=(("Pdf file", "*.pdf*"),("Png file", "*.png*")))
